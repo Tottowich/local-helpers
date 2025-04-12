@@ -51,8 +51,9 @@ commit() {
   # 3. Construct the prompt for the LLM
   local prompt_text
   prompt_text=$(cat <<-PROMPT
-Please generate a concise and informative commit message in the conventional commit format (e.g., feat: ..., fix: ..., chore: ..., docs: ...).
-The message should summarize the following changes. Output ONLY the commit message itself, without any extra explanations, preamble, or quotation marks surrounding the message.
+Please generate a concise and informative commit message in the conventional commit format (e.g., feat: ..., fix: ..., chore: ..., docs: ...). 
+The message should summarize the following changes. Include specific information if the diff is small, but be concise. Focus on the key points of the changes if the diff is large. 
+Output ONLY the commit message itself, without any extra explanations, preamble, or quotation marks surrounding the message.
 
 Current Changes (Git Diff):
 \`\`\`diff
