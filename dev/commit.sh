@@ -40,20 +40,13 @@ commit() {
     fi
   fi
 
-  # 2. Get the last 3 commit messages (subject lines only)
-  local last_commits
-  last_commits=$(git log --pretty=format:"%s" -n 3)
-  if [ $? -ne 0 ]; then
-      echo "Warning: Error getting git log. Proceeding without recent commit context." >&2
-      last_commits="Could not retrieve recent commits."
-  fi
-
-  # 3. Construct the prompt for the LLM
+  # 2. Construct the prompt for the LLM
   local prompt_text
   prompt_text=$(cat <<-PROMPT
 Please generate a concise and informative commit message in the conventional commit format (e.g., feat: ..., fix: ..., chore: ..., docs: ...). 
 The message should summarize the following changes. Include specific information if the diff is small such as a single line, but be concise. Focus on the key points of the changes if the diff is large. 
 Output ONLY the commit message itself, without any extra explanations, preamble, or quotation marks surrounding the message.
+The commit should be at maximum 30 words long.
 
 + signifies addition, - signifies deletion, ~ signifies change.
 Current Changes (Git Diff):
@@ -65,7 +58,7 @@ New Commit Message Based on diff above:
 PROMPT
 )
 
-  # 4. Prepare the JSON payload for Ollama using jq
+  # 3. Prepare the JSON payload for Ollama using jq
   local json_payload
   json_payload=$(jq -n --arg model "$OLLAMA_MODEL" --arg prompt "$prompt_text" \
     '{
@@ -86,7 +79,7 @@ PROMPT
 
   echo "Asking Ollama ($OLLAMA_MODEL) to generate commit message..."
 
-  # 5. Send request to Ollama API and capture the response
+  # 4. Send request to Ollama API and capture the response
   local ollama_response
   ollama_response=$(curl -s -X POST "$OLLAMA_API_ENDPOINT" \
     -H "Content-Type: application/json" \
@@ -97,7 +90,7 @@ PROMPT
     echo "Please ensure Ollama is running ('ollama serve')." >&2
     return 1
   fi
-  # 6. Parse the response to extract the commit message
+  # 5. Parse the response to extract the commit message
   local llm_message
 
   # --- Now parse the SANITIZED response with jq ---
@@ -127,7 +120,7 @@ PROMPT
   fi
 
 
-  # 7. Display the message and ask for confirmation
+  # 6. Display the message and ask for confirmation
   echo "-------------------------------------"
   echo "Generated Commit Message:"
   echo "$llm_message"
