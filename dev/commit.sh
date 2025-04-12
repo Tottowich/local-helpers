@@ -99,7 +99,7 @@ PROMPT
   local llm_message
 
   # --- Now parse the SANITIZED response with jq ---
-  llm_message=$(echo "$ollama_response" | jq -r '.response')
+  llm_message=$(echo "$ollama_response" | tr -d '\n\r' | jq -r '.response')
 
   # Check if jq command itself failed (e.g., still invalid JSON after sanitizing)
   if [ $? -ne 0 ]; then
