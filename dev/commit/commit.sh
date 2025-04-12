@@ -64,6 +64,9 @@ commit() {
   Files Modified:
   $modified_files
 
+  --- Previous Commit Messages ---
+  $prev_commit_messages
+
   --- Changes (Git Diff) ---
   \`\`\`diff
   $git_diff
