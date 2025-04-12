@@ -59,8 +59,6 @@ commit() {
   modified_files=$(echo "$modified_files" | tr '\n' ' ')
   local prompt_text
   prompt_text=$(cat <<-PROMPT
-  --- Previous Commit Messages ---
-  $prev_commit_messages
   --- Context ---
   Current Git Branch: $branch_name
   Files Modified:
