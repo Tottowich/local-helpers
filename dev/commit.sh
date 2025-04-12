@@ -57,13 +57,14 @@ Output ONLY the commit message itself, without any extra explanations, preamble,
 
 Previous Commit Messages:
 $last_commits
+Use the previous commit messages as context to avoid repeating information.
 
 Current Changes (Git Diff):
 \`\`\`diff
 $git_diff
 \`\`\`
 
-New Commit Message:
+New Commit Message Based on diff above:
 PROMPT
 )
 
