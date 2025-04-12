@@ -3,7 +3,7 @@
 ## Function to generate commit message using local Ollama LLM
 commit() {
   # --- Configuration ---
-  local OLLAMA_MODEL="gemma3:1b"
+  local OLLAMA_MODEL="gemma3:4b"
   local OLLAMA_API_ENDPOINT="http://localhost:11434/api/generate"
   # --- /Configuration ---
 
@@ -55,10 +55,7 @@ Please generate a concise and informative commit message in the conventional com
 The message should summarize the following changes. Include specific information if the diff is small such as a single line, but be concise. Focus on the key points of the changes if the diff is large. 
 Output ONLY the commit message itself, without any extra explanations, preamble, or quotation marks surrounding the message.
 
-Previous Commit Messages:
-$last_commits
-Use the previous commit messages as context to avoid repeating information.
-
++ signifies addition, - signifies deletion, ~ signifies change.
 Current Changes (Git Diff):
 \`\`\`diff
 $git_diff
