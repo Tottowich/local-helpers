@@ -52,6 +52,9 @@ commit() {
   local branch_name
   branch_name=$(git rev-parse --abbrev-ref HEAD)
 
+  local prev_commit_messages
+  prev_commit_messages=$(git log --format="%s" --max-count=3)
+
   # 3. Construct the prompt for the LLM
   modified_files=$(echo "$modified_files" | tr '\n' ' ')
   # You're a Git commit message generator. Your task is to only respond with the most suitable commit message for the changes provided below.
@@ -60,6 +63,8 @@ commit() {
   # The message should summarize the changes based on the context and diff provided below.
   local prompt_text
   prompt_text=$(cat <<-PROMPT
+  --- Previous Commit Messages ---
+  $prev_commit_messages
   --- Context ---
   Current Git Branch: $branch_name
   Files Modified:
@@ -118,10 +123,6 @@ PROMPT
   # Shell-based cleanup of potential leading/trailing whitespace or quotes AFTER successful jq extraction
   llm_message="${llm_message#"${llm_message%%[![:space:]]*}"}" # Remove leading whitespace
   llm_message="${llm_message%"${llm_message##*[![:space:]]}"}" # Remove trailing whitespace
-  llm_message="${llm_message#\"}" # Remove leading quote if present
-  llm_message="${llm_message%\"}" # Remove trailing quote if present
-  llm_message="${llm_message#\'}" # Remove leading single quote if present
-  llm_message="${llm_message%\'}" # Remove trailing single quote if present
 
 
   # Final check if message is empty after cleanup
