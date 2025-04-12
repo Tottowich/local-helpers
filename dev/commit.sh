@@ -54,9 +54,6 @@ commit() {
 Please generate a concise and informative commit message in the conventional commit format (e.g., feat: ..., fix: ..., chore: ..., docs: ...).
 The message should summarize the following changes. Output ONLY the commit message itself, without any extra explanations, preamble, or quotation marks surrounding the message.
 
-Previous commit messages:
-$last_commits
-
 Current Changes (Git Diff):
 \`\`\`diff
 $git_diff

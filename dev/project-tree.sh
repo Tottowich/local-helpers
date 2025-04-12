@@ -10,7 +10,7 @@ project-tree() {
     local readme_file="README.md"
     # --- Use non-empty markers! ---
     local start_marker="# Project Structure"
-    local end_marker=""
+    local end_marker="### Stop Project Structure"
     # --- Patterns to ignore ---
     local ignore_pattern='node_modules|venv|.git'
     local tmp_file
