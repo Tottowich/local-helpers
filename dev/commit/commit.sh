@@ -52,9 +52,6 @@ commit() {
   local branch_name
   branch_name=$(git rev-parse --abbrev-ref HEAD)
 
-  local prev_commit_messages
-  prev_commit_messages=$(git log --format="%s" --max-count=3)
-
   # 3. Construct the prompt for the LLM
   modified_files=$(echo "$modified_files" | tr '\n' ' ')
   local prompt_text
@@ -63,9 +60,6 @@ commit() {
   Current Git Branch: $branch_name
   Files Modified:
   $modified_files
-
-  --- Previous Commit Messages ---
-  $prev_commit_messages
 
   --- Changes (Git Diff) ---
   \`\`\`diff
